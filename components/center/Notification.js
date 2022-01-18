@@ -1,11 +1,13 @@
-import { View, StyleSheet, Text, ImageBackground } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../constants/color";
+import { View, StyleSheet, Text, ImageBackground } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useColors } from '../../hooks';
 
-const Notification = (props) => {
+const Notification = ({ brown = false }) => {
+  const colors = useColors();
+
   const styles = StyleSheet.create({
     card: {
-      width: "100%",
+      width: '100%',
       // shadowColor: "black",
       // shadowOffset: {
       //   width: 0,
@@ -17,12 +19,12 @@ const Notification = (props) => {
       paddingTop: 20,
       paddingBottom: 15,
       paddingHorizontal: 10,
-      flexDirection: "row",
+      flexDirection: 'row',
       height: 100,
     },
 
     cardVectorText: {
-      color: "white",
+      color: 'white',
     },
     cardContent: {
       paddingLeft: 10,
@@ -30,73 +32,73 @@ const Notification = (props) => {
     },
     cardContentTop: {
       flex: 1,
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     cardContentBottom: {
       flex: 2,
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       paddingLeft: 5,
     },
     cardContentTopTitle: {
-      color: Colors.font,
+      color: colors.text,
     },
     tag: {
-      backgroundColor: Colors.backSoftGreen,
+      backgroundColor: colors.primaryLight,
       paddingHorizontal: 10,
       paddingVertical: 5,
       marginRight: 5,
       borderRadius: 3,
-      justifyContent: "center",
+      justifyContent: 'center',
     },
     tagText: {
-      color: Colors.font,
+      color: colors.text,
     },
     cardStatus: {
-      backgroundColor: Colors.primary,
+      backgroundColor: colors.primary,
       borderWidth: 4,
-      borderColor: Colors.backPrimary,
+      borderColor: colors.white,
       width: 30,
       height: 30,
       borderRadius: 6,
-      position: "absolute",
+      position: 'absolute',
       top: -15,
       right: 5,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     hourText: {
-      color: Colors.font,
+      color: colors.text,
     },
     image: {
       marginVertical: 10,
       borderRadius: 10,
-      backgroundColor: "white",
-      width: "100%",
+      backgroundColor: 'white',
+      width: '100%',
     },
     image2: {
       width: 55,
       height: 55,
-      backgroundColor: props.brown ? Colors.secondary : Colors.primary,
+      backgroundColor: brown ? colors.secondary : colors.primary,
       borderRadius: 10,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       padding: 5,
     },
     cardVector: {
-      overflow: "hidden",
+      overflow: 'hidden',
       borderRadius: 6,
     },
   });
 
   return (
     <ImageBackground
-      source={require("../../assets/frame.png")}
+      source={require('../../assets/frame.png')}
       imageStyle={{
-        resizeMode: "repeat",
-        overflow: "visible",
-        backfaceVisibility: "visible",
+        resizeMode: 'repeat',
+        overflow: 'hidden',
+        backfaceVisibility: 'visible',
         flex: 1,
         opacity: 0.2,
       }}
@@ -104,15 +106,15 @@ const Notification = (props) => {
     >
       <View style={styles.card}>
         <View style={styles.cardStatus}>
-          <Ionicons name="checkmark" size={16} color="white" />
+          <Ionicons name='checkmark' size={16} color='white' />
         </View>
         <View style={styles.cardVector}>
           <ImageBackground
-            source={require("../../assets/frame.png")}
+            source={require('../../assets/frame.png')}
             imageStyle={{
-              resizeMode: "repeat",
-              overflow: "visible",
-              backfaceVisibility: "visible",
+              resizeMode: 'repeat',
+              overflow: 'visible',
+              backfaceVisibility: 'visible',
               flex: 1,
               opacity: 1,
             }}
@@ -120,8 +122,8 @@ const Notification = (props) => {
           >
             <Text style={styles.cardVectorText}>
               <Ionicons
-                name="alarm-outline"
-                color={Colors.backSoft}
+                name='alarm-outline'
+                color={colors.secondaryLight}
                 size={36}
               />
             </Text>
@@ -133,8 +135,10 @@ const Notification = (props) => {
             <Text style={styles.hourText}>00:42:21</Text>
           </View>
           <View style={styles.cardContentBottom}>
-            <View style={{ ...styles.tag, backgroundColor: Colors.backSoft }}>
-              <Text style={{ ...styles.tagText, color: Colors.font }}>
+            <View
+              style={{ ...styles.tag, backgroundColor: colors.secondaryLight }}
+            >
+              <Text style={{ ...styles.tagText, color: colors.text }}>
                 test
               </Text>
             </View>

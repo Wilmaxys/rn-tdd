@@ -1,13 +1,44 @@
-import { View, StyleSheet, Image, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../constants/color";
+import { View, StyleSheet, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useColors } from '../../hooks';
 
-const Notification = (props) => {
+const Notification = ({}) => {
+  const colors = useColors();
+
+  const styles = StyleSheet.create({
+    cardNotif: {
+      backgroundColor: colors.secondaryLight,
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      marginHorizontal: 5,
+      flex: 1,
+    },
+    cardNotifTop: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    cardNotifTopVector: {
+      backgroundColor: colors.secondaryLight,
+      borderRadius: 2,
+      padding: 5,
+    },
+    cardNotifTopText: {
+      fontSize: 16,
+      marginLeft: 10,
+    },
+    cardNotifBottomText: {
+      paddingVertical: 5,
+      fontSize: 34,
+      color: colors.text,
+      marginLeft: 5,
+    },
+  });
+
   return (
     <View style={styles.cardNotif}>
       <View style={styles.cardNotifTop}>
         <View style={styles.cardNotifTopVector}>
-          <Ionicons name="boat" color="white" size={24} />
+          <Ionicons name='boat' color={colors.white} size={24} />
         </View>
         <View style={styles.cardNotifTopText}>
           <Text>Task2</Text>
@@ -18,34 +49,5 @@ const Notification = (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  cardNotif: {
-    backgroundColor: Colors.backSoft,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginHorizontal: 5,
-    flex: 1,
-  },
-  cardNotifTop: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  cardNotifTopVector: {
-    backgroundColor: Colors.backSoft,
-    borderRadius: 2,
-    padding: 5,
-  },
-  cardNotifTopText: {
-    fontSize: 16,
-    marginLeft: 10,
-  },
-  cardNotifBottomText: {
-    paddingVertical: 5,
-    fontSize: 34,
-    color: Colors.font,
-    marginLeft: 5,
-  },
-});
 
 export default Notification;

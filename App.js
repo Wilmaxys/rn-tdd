@@ -1,32 +1,30 @@
-import { StyleSheet, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
-import CenterScreen from "./screens/Center";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import ProfilScreen from "./screens/Profil";
-import ModuleScreen from "./screens/Module";
-import Colors from "./constants/color";
+import { SafeAreaView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import { persistor, store } from './store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { AppNavigator } from './navigation';
+import { Loader } from './components';
 
-const Tab = createBottomTabNavigator();
-
-const fetchFonts = () => {
-  return Font.loadAsync({
-    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-  });
+const loadResourcesAsync = async () => {
+  return await Promise.all([
+    Font.loadAsync({
+      'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+      'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    }),
+  ]);
 };
 
-export default function App() {
+const App = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   if (!dataLoaded) {
     return (
       <AppLoading
-        startAsync={fetchFonts}
+        startAsync={loadResourcesAsync}
         onFinish={() => setDataLoaded(true)}
         onError={(error) => console.log(error)}
       />
@@ -34,77 +32,15 @@ export default function App() {
   }
 
   return (
-    <View style={styles.screen}>
-      <StatusBar style="auto" />
-      {/* <CenterScreen /> */}
-      {/* {content} */}
-      {/* <GameOverScreen
-        userNumber={0}
-        roundsNumber={0}
-        onRestart={ConfigureNewGameHandler}
-      /> */}
-      <NavigationContainer
-        theme={{
-          colors: {
-            background: "transparent",
-          },
-        }}
-      >
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: Colors.primary,
-            tabBarInactiveTintColor: Colors.backGrey,
-            headerShown: false,
-            tabBarStyle: {
-              elevation: 0,
-              borderColor: "transparent",
-              shadowColor: "transparent",
-              backgroundColor: Colors.backPrimary,
-              borderRadius: 6,
-              marginHorizontal: 20,
-              marginVertical: 10,
-            },
-          }}
-        >
-          <Tab.Screen
-            name="Centre"
-            component={CenterScreen}
-            options={{
-              tabBarLabel: "Centre",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="apps" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Module"
-            component={ModuleScreen}
-            options={{
-              tabBarLabel: "Module",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="browsers" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Profil"
-            component={ProfilScreen}
-            options={{
-              tabBarLabel: "Profil",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="body-sharp" color={color} size={size} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </View>
+    <Provider store={store}>
+      <PersistGate loading={<Loader />} persistor={persistor}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <StatusBar style='auto' />
+          <AppNavigator />
+        </SafeAreaView>
+      </PersistGate>
+    </Provider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: Colors.backSoft,
-  },
-});
+export default App;
