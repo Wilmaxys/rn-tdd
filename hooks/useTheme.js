@@ -5,7 +5,7 @@ import { defaultTheme } from '../constants';
  * Hook that returns the current theme
  */
 const useTheme = () => {
-  const theme = useSelector((state) => state.persisted.theme);
+  const theme = useSelector((state) => state.user.theme);
 
   return theme || defaultTheme;
 };
